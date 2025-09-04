@@ -9,7 +9,7 @@ import SwiftUI
 struct TestAppApp: App {
     var body: some Scene {
         WindowGroup {
-            CharacterListView()
+            RootView()
         }
     }
 }

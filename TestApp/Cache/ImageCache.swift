@@ -5,6 +5,7 @@
 
 import UIKit
 
+@MainActor
 final class DefaultImageCache: ImageCache {
     
     private var cache: [String: UIImage] = [:]
@@ -18,6 +19,7 @@ final class DefaultImageCache: ImageCache {
     }
 }
 
+@MainActor
 protocol ImageCache {
     func setImage(_ image: UIImage?, key: String)
     func getImage(forKey key: String) -> UIImage?

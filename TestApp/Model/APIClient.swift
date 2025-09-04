@@ -5,8 +5,15 @@
 
 import Foundation
 
+enum APIClientError: Error {
+    case httpCodeError(code: Int)
+    case invalidResponse
+    case decodingError
+}
+
 final class APIClient {
     private let baseURL = URL(string: "https://rickandmortyapi.com/api")!
+    
     private var charactersEndpointURL: URL {
         return baseURL.appendingPathComponent("character")
     }
@@ -27,11 +34,41 @@ final class APIClient {
     }
     
     func fetchCharacters() async throws -> CharacterResponse {
-        // TODO: -
-        return .init(info: .init(count: 0, pages: 0, next: nil, prev: nil), results: [])
+        let (data, response) = try await URLSession.testApp.data(from: charactersEndpointURL)
+        
+        guard let httpResponse = response as? HTTPURLResponse else {
+            throw APIClientError.invalidResponse
+        }
+        
+        guard 200...299 ~= httpResponse.statusCode else {
+            throw APIClientError.httpCodeError(code: httpResponse.statusCode)
+        }
+        
+        let decoder = JSONDecoder()
+        guard let characterResponse = try? decoder.decode(CharacterResponse.self, from: data) else {
+            throw APIClientError.decodingError
+        }
+        
+        return characterResponse
     }
-}
-
-enum APIClientError: Error {
-    case invalidResponse
+    
+    func fetchCharacter(id: Int) async throws -> Character {
+        let characterUrl = baseURL.appendingPathComponent("character/\(id)")
+        let (data, response) = try await URLSession.testApp.data(from: characterUrl)
+        
+        guard let httpResponse = response as? HTTPURLResponse else {
+            throw APIClientError.invalidResponse
+        }
+        
+        guard 200...299 ~= httpResponse.statusCode else {
+            throw APIClientError.httpCodeError(code: httpResponse.statusCode)
+        }
+        
+        let decoder = JSONDecoder()
+        guard let character = try? decoder.decode(Character.self, from: data) else {
+            throw APIClientError.decodingError
+        }
+        
+        return character
+    }
 }

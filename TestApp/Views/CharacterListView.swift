@@ -7,8 +7,21 @@
 import SwiftUI
 
 struct CharacterListView: View {
+    @StateObject private var viewModel = CharacterListViewModel()
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        ScrollView(.vertical) {
+            VStack(spacing: 16) {
+                ForEach(viewModel.characters) { character in
+                    NavigationLink {
+                        CharacterDetailView(characterId: character.id)
+                    } label: {
+                        CharacterView(character: character)
+                    }
+                }
+            }
+            .padding(16)
+        }
     }
 }
 
