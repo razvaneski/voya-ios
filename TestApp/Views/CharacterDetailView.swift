@@ -7,23 +7,6 @@
 
 import SwiftUI
 
-class CharacterDetailViewModel: ObservableObject {
-    @Published private(set) var character: Character?
-    
-    private let apiClient = APIClient()
-    
-    func fetchCharacter(id: Int) async {
-        do {
-            let character = try await apiClient.fetchCharacter(id: id)
-            await MainActor.run {
-                self.character = character
-            }
-        } catch {
-            // TODO: handle error
-        }
-    }
-}
-
 struct CharacterDetailView: View {
     @StateObject private var viewModel = CharacterDetailViewModel()
     let characterId: Int
@@ -33,6 +16,7 @@ struct CharacterDetailView: View {
             if let character = viewModel.character {
                 CharacterView(character: character)
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .padding()
             } else {
                 ProgressView()
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -41,5 +25,6 @@ struct CharacterDetailView: View {
         .task {
             await viewModel.fetchCharacter(id: characterId)
         }
+        .withErrorHandling(viewModel.errorSubject)
     }
 }

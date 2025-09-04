@@ -22,6 +22,7 @@ struct CharacterListView: View {
             }
             .padding(16)
         }
+        .withErrorHandling(viewModel.errorSubject)
     }
 }
 

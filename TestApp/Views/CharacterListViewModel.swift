@@ -6,12 +6,13 @@
 import Foundation
 import Combine
 
-final class CharacterListViewModel: ObservableObject {
+final class CharacterListViewModel: BaseViewModel<Any> {
     @Published private(set) var characters: [Character] = []
     
     private let apiClient = APIClient()
     
-    init() {
+    override init() {
+        super.init()
         Task {
             await self.fetchCharacters()
         }
@@ -33,7 +34,9 @@ final class CharacterListViewModel: ObservableObject {
                 self.characters = characterResponse.results
             }
         } catch {
-            // TODO: Handle error
+            await MainActor.run {
+                self.errorSubject.send(error)
+            }
         }
     }
 }
