@@ -22,11 +22,10 @@ struct CharacterViewUITests {
         location: .init(name: "Earth", url: "https://rickandmortyapi.com/api/location/20")
     )
     
-    @Test
-    func characterViewSnapshot() async throws {
-        let characterView = CharacterView(character: character)
+    @Test("CharacterView snapshot")
+    func characterViewSnapshot() {
+        let characterView = CharacterView(character: character).frame(maxWidth: .infinity)
         let view: UIView = UIHostingController(rootView: characterView).view
-        try await Task.sleep(for: .seconds(3))
         assertSnapshot(of: view, as: .image(size: view.intrinsicContentSize))
     }
 }

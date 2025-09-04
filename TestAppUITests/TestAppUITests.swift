@@ -6,34 +6,59 @@
 import XCTest
 
 final class TestAppUITests: XCTestCase {
+    var app: XCUIApplication!
 
     override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
-
-        // In UI tests it is usually best to stop immediately when a failure occurs.
         continueAfterFailure = false
-
-        // In UI tests it’s important to set the initial state - such as interface orientation - required for your tests before they run. The setUp method is a good place to do this.
+        app = XCUIApplication()
     }
 
     override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
+        app = nil
     }
 
     @MainActor
-    func testExample() throws {
-        // UI tests must launch the application that they test.
-        let app = XCUIApplication()
+    func testAppLaunch() throws {
         app.launch()
-
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+        XCTAssertTrue(app.state == .runningForeground)
+    }
+    
+    @MainActor
+    func testCharacterListExists() throws {
+        app.launch()
+        
+        let characterList = app.scrollViews.firstMatch
+        XCTAssertTrue(characterList.waitForExistence(timeout: 10), "Character list non-existent")
+    }
+    
+    @MainActor
+    func testTapFirstCharacter() throws {
+        app.launch()
+        
+        let characterList = app.scrollViews.firstMatch
+        XCTAssertTrue(characterList.waitForExistence(timeout: 10), "Character list non-existent")
+        
+        let firstCharacterView = characterList.buttons.firstMatch
+        XCTAssertTrue(firstCharacterView.exists, "Character list is empty")
+        
+        let firstStaticTextBeforeTap = firstCharacterView.staticTexts.firstMatch
+        XCTAssertTrue(firstStaticTextBeforeTap.exists, "First static text should exist in character view")
+        let textBeforeTap = firstStaticTextBeforeTap.label
+        
+        firstCharacterView.tap()
+        
+        let firstStaticTextAfterTap = app.staticTexts.firstMatch
+        XCTAssertTrue(firstStaticTextAfterTap.waitForExistence(timeout: 10), "First static text should exist in detail view")
+        let textAfterTap = firstStaticTextAfterTap.label
+        
+        XCTAssertEqual(textBeforeTap, textAfterTap, "The first static text should be the same before and after tap")
     }
 
     @MainActor
     func testLaunchPerformance() throws {
-        // This measures how long it takes to launch your application.
         measure(metrics: [XCTApplicationLaunchMetric()]) {
-            XCUIApplication().launch()
+            app.launch()
+            app.terminate()
         }
     }
 }

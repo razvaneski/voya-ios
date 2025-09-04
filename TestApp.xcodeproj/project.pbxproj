@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		E5AAC8782E6A23A90047C8AD /* SnapshotTesting in Frameworks */ = {isa = PBXBuildFile; productRef = E5AAC8772E6A23A90047C8AD /* SnapshotTesting */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		6811FD362E3A3B1E0041807A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -59,6 +63,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E5AAC8782E6A23A90047C8AD /* SnapshotTesting in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -135,6 +140,7 @@
 			);
 			name = TestAppTests;
 			packageProductDependencies = (
+				E5AAC8772E6A23A90047C8AD /* SnapshotTesting */,
 			);
 			productName = TestAppTests;
 			productReference = 6811FD352E3A3B1E0041807A /* TestAppTests.xctest */;
@@ -195,6 +201,9 @@
 			);
 			mainGroup = 6811FD1F2E3A3B1C0041807A;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				E5AAC8762E6A23A90047C8AD /* XCRemoteSwiftPackageReference "swift-snapshot-testing" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 6811FD292E3A3B1C0041807A /* Products */;
 			projectDirPath = "";
@@ -550,6 +559,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		E5AAC8762E6A23A90047C8AD /* XCRemoteSwiftPackageReference "swift-snapshot-testing" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/pointfreeco/swift-snapshot-testing";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.18.6;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		E5AAC8772E6A23A90047C8AD /* SnapshotTesting */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E5AAC8762E6A23A90047C8AD /* XCRemoteSwiftPackageReference "swift-snapshot-testing" */;
+			productName = SnapshotTesting;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 6811FD202E3A3B1C0041807A /* Project object */;
 }

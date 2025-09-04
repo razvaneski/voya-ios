@@ -25,6 +25,7 @@ struct CharacterDetailView: View {
         .task {
             await viewModel.fetchCharacter(id: characterId)
         }
+        .accessibilityIdentifier("CharacterDetailView")
         .withErrorHandling(viewModel.errorSubject)
     }
 }
