@@ -7,7 +7,7 @@
 import SwiftUI
 
 struct CharacterListView: View {
-    @StateObject private var viewModel = CharacterListViewModel()
+    @StateObject private var viewModel = CharacterListViewModel(apiClient: APIClient())
     
     var body: some View {
         ScrollView(.vertical) {

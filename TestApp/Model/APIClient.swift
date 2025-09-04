@@ -11,7 +11,13 @@ enum APIClientError: Error {
     case decodingError
 }
 
-final class APIClient {
+
+protocol APIClientProtocol: AnyObject {
+    func fetchCharacters() async throws -> CharacterResponse
+    func fetchCharacter(id: Int) async throws -> Character
+}
+
+final class APIClient: APIClientProtocol {
     private let baseURL = URL(string: "https://rickandmortyapi.com/api")!
     
     private var charactersEndpointURL: URL {

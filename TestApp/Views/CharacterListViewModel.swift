@@ -8,13 +8,13 @@ import Combine
 
 final class CharacterListViewModel: BaseViewModel<Any> {
     @Published private(set) var characters: [Character] = []
+    let apiClient: APIClientProtocol
     
-    private let apiClient = APIClient()
-    
-    override init() {
+    init(apiClient: APIClientProtocol) {
+        self.apiClient = apiClient
         super.init()
         Task {
-            await self.fetchCharacters()
+            await fetchCharacters()
         }
     }
     

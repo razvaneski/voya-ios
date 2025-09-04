@@ -9,8 +9,12 @@ import Foundation
 
 class CharacterDetailViewModel: BaseViewModel<Any> {
     @Published private(set) var character: Character?
+    private let apiClient: APIClientProtocol
     
-    private let apiClient = APIClient()
+    init(character: Character? = nil, apiClient: APIClientProtocol) {
+        self.character = character
+        self.apiClient = apiClient
+    }
     
     func fetchCharacter(id: Int) async {
         do {

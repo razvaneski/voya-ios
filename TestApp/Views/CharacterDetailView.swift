@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct CharacterDetailView: View {
-    @StateObject private var viewModel = CharacterDetailViewModel()
+    @StateObject private var viewModel = CharacterDetailViewModel(apiClient: APIClient())
     let characterId: Int
     
     var body: some View {
